@@ -3,7 +3,7 @@
 #include "user/threads.h"
 
 #define NULL 0
-
+#define DEBUG 1
 void f3(void *arg)
 {
     int i = 10000;
@@ -28,16 +28,20 @@ void f2(void *arg)
     }
 }
 
-void f1(void *arg)
+void f1(void *test)
 {
     int i = 100;
-    
+    //int j = *(int *)test;
+#if DEBUG
     struct thread *t2 = thread_create(f2, NULL);
     thread_add_runqueue(t2);
+
     struct thread *t3 = thread_create(f3, NULL);
     thread_add_runqueue(t3);
+#endif
     while(1) {
         printf("thread 1: %d\n", i++);
+        //printf("thread 1 arg: %d\n", *(int *)test);
         if (i == 110) {
             thread_exit();
         }
@@ -47,8 +51,10 @@ void f1(void *arg)
 
 int main(int argc, char **argv)
 {
+    int a=5;
+    int *b=&a;
     printf("mp1-0\n");
-    struct thread *t1 = thread_create(f1, NULL);
+    struct thread *t1 = thread_create(f1, b);
     thread_add_runqueue(t1);
     thread_start_threading();
     printf("\nexited\n");

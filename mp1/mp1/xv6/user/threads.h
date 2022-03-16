@@ -31,6 +31,7 @@ void dispatch(void);
 void schedule(void);
 void thread_exit(void);
 void thread_start_threading(void);
-struct thread * exit_preorder(struct thread *t);
+void schedule_preorder(struct thread* root);
+void exit_preorder(struct thread *t);
 
 #endif // THREADS_H_

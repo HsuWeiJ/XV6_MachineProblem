@@ -1,7 +1,5 @@
 == Test thread package with public testcase 0 (20%) ==
-thread package with public testcase 0: FAIL (12.2s)
-    [Error] Output on line 1: '', should be 'thread 1: 100'
+thread package with public testcase 0: OK (4.0s)
 == Test thread package with public testcase 1 (20%) ==
-thread package with public testcase 1: FAIL (1.2s)
-    [Error] Output on line 1: '', should be 'thread 1: 100'
-Score: 0/40
+thread package with public testcase 1: OK (0.8s)
+Score: 40/40
