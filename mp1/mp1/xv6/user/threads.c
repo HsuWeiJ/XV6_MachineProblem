@@ -66,27 +66,40 @@ void thread_add_runqueue(struct thread *t){
 }
 void thread_yield(void){
     // TODO
-    if(setjmp(current_thread->env)==0);
+    if(setjmp(current_thread->env)==0)
+    {
+        
+        schedule();
+        dispatch();
+        //current_thread->fp(current_thread->arg);
+    }
     else 
-        return;  
-    schedule();
-    dispatch();
+        return; 
+    
+    
 }
 void dispatch(void){
     // TODO
     if(current_thread->buf_set==0)
-    {    
-        current_thread->env->sp=(unsigned long)current_thread->stack_p;
-        current_thread->env->ra=(unsigned long)current_thread->fp;
-        current_thread->buf_set=1;
+    {   
+        if(setjmp(current_thread->env)==0)
+        {
+            current_thread->env->sp=(unsigned long)current_thread->stack_p;
+            //current_thread->env->ra=(unsigned long)current_thread->fp;
+            current_thread->buf_set=1;
+        }
+        
+        else
+            current_thread->fp(current_thread->arg); 
         longjmp(current_thread->env,1);
+        //current_thread->fp(current_thread->arg); 
         
     }
     else 
     {
         //current_thread->fp(current_thread->arg);
         longjmp(current_thread->env,1);
-        //longjmp(current_thread->env,1);
+
     }
 }
 void schedule(void){
@@ -226,17 +239,7 @@ void thread_start_threading(void){
     if(setjmp(env_st)==0);
     else 
         return;
-    //longjmp(env_st,1);
-
-    current_thread->env->sp=(unsigned long)current_thread->stack_p;
-    //int *y=current_thread->arg;
-    
-    current_thread->env->ra = (unsigned long) current_thread->fp;
-    //current_thread->fp(current_thread->arg);
-    
-    //printf("arg:%d",*y);
-    current_thread->buf_set=1;
+    dispatch();
 
     
-    longjmp(current_thread->env,1);
 }

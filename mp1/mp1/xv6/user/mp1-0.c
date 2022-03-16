@@ -28,10 +28,9 @@ void f2(void *arg)
     }
 }
 
-void f1(void *test)
+void f1(void *arg)
 {
     int i = 100;
-    //int j = *(int *)test;
 #if DEBUG
     struct thread *t2 = thread_create(f2, NULL);
     thread_add_runqueue(t2);
@@ -41,7 +40,7 @@ void f1(void *test)
 #endif
     while(1) {
         printf("thread 1: %d\n", i++);
-        //printf("thread 1 arg: %d\n", *(int *)test);
+        //printf("thread 1 arg: %d\n", *(int *)arg);
         if (i == 110) {
             thread_exit();
         }
